@@ -41,8 +41,10 @@ public class Server {
         //从服务注册去找到具体的类
         clazz = UserServiceImpl.class;
 
-        Method method = clazz.getClass().getMethod(methodName, parameterTypes);
-        Object obj =  method.invoke(clazz,args);
+        Object o = clazz.newInstance();
+
+        Method method = clazz.getMethod(methodName, parameterTypes);
+        Object obj =  method.invoke(o,args);
 
         System.out.println(obj.getClass().getName());
         oos.writeObject(obj);
