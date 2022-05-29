@@ -1,4 +1,4 @@
-package com.study.rpc.rpc03;
+package com.study.rpc.rpc04;
 
 import com.study.rpc.common.IUserService;
 import com.study.rpc.common.User;
