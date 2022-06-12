@@ -52,7 +52,7 @@ public class NIO06NIOServer {
                     //将socketChannel设置为非阻塞
                     socketChannel.configureBlocking(false);
                     System.out.println("客户端连接成功，生成了一个socketChannel");
-                    //将当前的socketChannel注册到selector上,关注时间为OP_READ,同时给该socketChannel关联一个Buffer
+                    //将当前的socketChannel注册到selector上,关注事件为OP_READ,同时给该socketChannel关联一个Buffer
                     socketChannel.register(selector,SelectionKey.OP_READ, ByteBuffer.allocate(1024));
                 }
                 if (selectionKey.isReadable()){     //发生了OP_READ
