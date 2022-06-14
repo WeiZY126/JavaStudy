@@ -35,6 +35,7 @@ public class NIO07ChatServer {
      * 监听
      */
     public void listen() {
+        System.out.println("监听线程"+Thread.currentThread().getName());
         try {
             while (true) {
                 //循环监听
@@ -109,6 +110,7 @@ public class NIO07ChatServer {
      */
     private void sendInfoToOtherClients(String msg, SocketChannel self) throws IOException {
         System.out.println("服务器转发消息中...");
+        System.out.println("服务器转发数据线程"+Thread.currentThread().getName());
         //获取所有的SelectionKey，并排除self
         Iterator<SelectionKey> iterator = selector.keys().iterator();
         //遍历key，将消息放入所有的channel
