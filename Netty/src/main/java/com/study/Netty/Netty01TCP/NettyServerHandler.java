@@ -8,6 +8,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelPipeline;
 import io.netty.util.CharsetUtil;
 
+import java.util.concurrent.TimeUnit;
+
 
 /*
 说明：
@@ -33,6 +35,58 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buf = (ByteBuf) msg;
         System.out.println("客户端发送消息是:" + buf.toString(CharsetUtil.UTF_8));
         System.out.println("客户端地址是:" + ctx.channel().remoteAddress());
+
+        //假如这里有一个非常耗时的业务->异步执行->提交到该channel对应的NIOEventLoop的taskQueue中
+
+        //解决方案1 用户程序自定义的普通任务
+
+        ctx.channel().eventLoop().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello,客户端2",CharsetUtil.UTF_8));
+            }
+        });
+        ctx.channel().eventLoop().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //与上一个共用一个线程，上一个结束后重新等待20秒
+                    Thread.sleep(20*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello,客户端3",CharsetUtil.UTF_8));
+            }
+        });
+
+        //解决方案2 用户程序自定义的定时任务->该任务是提交到scheduleTaskQueue中
+
+        ctx.channel().eventLoop().schedule(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //与上一个共用一个线程，上一个结束后重新等待20秒
+                    Thread.sleep(5*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello,客户端4",CharsetUtil.UTF_8));
+            }
+        },5, TimeUnit.SECONDS);
+        System.out.println("go on....");
+
+
+//        System.out.println("server ctx=" + ctx);
+//        //将msg转成一个ByteBuf
+//        //ByteBuf是Netty提供的，不是NIO
+//        ByteBuf buf = (ByteBuf) msg;
+//        System.out.println("客户端发送消息是:" + buf.toString(CharsetUtil.UTF_8));
+//        System.out.println("客户端地址是:" + ctx.channel().remoteAddress());
     }
 
     //数据读取完毕
