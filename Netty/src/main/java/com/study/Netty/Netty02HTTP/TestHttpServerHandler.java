@@ -7,6 +7,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
+import java.net.URI;
+
 /*
 说明
 1.SimpleChannelInboundHandler是ChannelInboundHandlerAdapter的子类
@@ -18,18 +20,28 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         //判断msg是不是httpRequest请求
-        if (msg instanceof HttpRequest){
-            System.out.println("msg 类型="+msg.getClass());
-            System.out.println("客户端地址:"+ctx.channel().remoteAddress());
+        if (msg instanceof HttpRequest) {
 
+            System.out.println("pipeline hashcode"+ ctx.pipeline().hashCode()
+            +"TestHttpServerHandler hash"+this.hashCode());
+            System.out.println("msg 类型=" + msg.getClass());
+            System.out.println("客户端地址:" + ctx.channel().remoteAddress());
+
+            //获取到
+            HttpRequest httpRequest = (HttpRequest) msg;
+            //获取uri
+            URI uri = new URI(httpRequest.uri());
+            if ("/favicon.ico".equals(uri.getPath())){
+                System.out.println("请求了avicon.ico,不作响应");
+            }
             //回复信息给浏览器
             ByteBuf content = Unpooled.copiedBuffer("hello,我是服务器", CharsetUtil.UTF_8);
 
             //构造一个Http的响应，即httpresponse
             DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
 
-            response.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain");
-            response.headers().set(HttpHeaderNames.CONTENT_LENGTH,content.readableBytes());
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
+            response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
 
             //将构建好的response返回
             ctx.writeAndFlush(response);
