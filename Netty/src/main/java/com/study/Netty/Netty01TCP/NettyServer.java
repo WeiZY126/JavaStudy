@@ -27,11 +27,13 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class)  //使用NioServerSocketChannel作为服务器的通道实现
                     .option(ChannelOption.SO_BACKLOG, 128)   //设置线程队列等待连接的个数
                     .childOption(ChannelOption.SO_KEEPALIVE, true)  //设置保持活动连接状态
+                    .handler(null)//会在BossGroup生效
+                    .childHandler(null)//再workerGroup生效
                     .childHandler(new ChannelInitializer<SocketChannel>() { //创建一个通道测试对象(匿名对象)
                         //给pipeline设置处理器
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            System.out.println("客户socketChannel hashcode="+socketChannel.hashCode());//可以使用一个集合管理所有的channel，在需要推送消息时可以将业务放入到各个channel对应的NIOEventLoop的taskQueue中，或者scheduleTaskQueue中
+                            System.out.println("客户socketChannel hashcode=" + socketChannel.hashCode());//可以使用一个集合管理所有的channel，在需要推送消息时可以将业务放入到各个channel对应的NIOEventLoop的taskQueue中，或者scheduleTaskQueue中
                             socketChannel.pipeline().addLast(new NettyServerHandler());
                         }
                     });     //给我们的WorkerGroup的EventLoop对应的管道设置处理器
@@ -45,9 +47,9 @@ public class NettyServer {
             cf.addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                    if (channelFuture.isSuccess()){
+                    if (channelFuture.isSuccess()) {
                         System.out.println("监听端口6668成功");
-                    }else {
+                    } else {
                         System.out.println("监听端口失败");
                     }
                 }
