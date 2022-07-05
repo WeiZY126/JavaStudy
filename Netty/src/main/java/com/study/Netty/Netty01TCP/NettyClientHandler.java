@@ -8,6 +8,7 @@ import io.netty.util.CharsetUtil;
 
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {
 
+
     //当通道就绪时就会触发该方法
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {

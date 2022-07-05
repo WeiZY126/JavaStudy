@@ -26,7 +26,8 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
         /*
         该方法会将channelGroup中所有的channel遍历，并发送消息
          */
-        channelGroup.writeAndFlush("[客户端]" + channel.remoteAddress() + "加入聊天");
+        channelGroup.writeAndFlush("[客户端]" + channel.remoteAddress() + "加入聊天"
+                + sdf.format(new java.util.Date()) + "\n");
         channelGroup.add(channel);
     }
 
