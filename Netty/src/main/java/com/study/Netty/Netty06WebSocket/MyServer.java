@@ -1,16 +1,16 @@
 package com.study.Netty.Netty06WebSocket;
 
-import com.study.Netty.Netty05HeartBeat.MyServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import io.netty.handler.timeout.IdleStateHandler;
-
-import java.util.concurrent.TimeUnit;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 public class MyServer {
     public static void main(String[] args) {
@@ -30,20 +30,28 @@ public class MyServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline pipeline = socketChannel.pipeline();
-                            //加入Netty提供IdleStateHandler
+                            //因为基于http协议，需要http编解码器
+                            pipeline.addLast(new HttpServerCodec());
+                            //是以块方式写的，添加ChunkedWrite处理器
+                            pipeline.addLast(new ChunkedWriteHandler());
                             /*
-                            说明：
-                            1.IdleStateHandler是netty提供的处理空闲状态的处理器
-                            2.long readerIdleTime   :   表示多长时间没有读，就会发送一个心跳检测包，检测是否还是连接的状态
-                            3.long writerIdleTime   :   表示多长时间没有写，就会发送一个心跳检测包，检测是否还是连接的状态
-                            4.long allIdleTime   :   表示多长时间没有读写，就会发送一个心跳检测包，检测是否还是连接的状态
-                            5.Triggers an IdleStateEvent when a Channel has not performed read, write, or both operation for a while.
-                            6.当IdleStateEvent触发后，就会传递给管道的下一个handler去处理
-                            通过调用下一个handler的userEventTiggered，在该方法中去处理
+                            说明:
+                            1.http数据在传输过程中是分段的，HttpObjectAggregator就是可以将多个段聚合起来
+                            2.这就是为什么当浏览器发送大量数据时，就会发出多次http请求
                              */
-                            pipeline.addLast(new IdleStateHandler(3,5,7, TimeUnit.SECONDS));
-                            //加入一个对空闲检测进一步处理的自定义的handler（自定义）
-                            pipeline.addLast(new MyServerHandler());
+                            pipeline.addLast(new HttpObjectAggregator(8192));
+                            /*
+                            说明:
+                            1.对于websocket，
+                            数据是以帧的形式传递
+                            2.可以看到WebSocketFrame下面有六个子类
+                            3.浏览器请求时 ws://localhost:7000/xxx 表示请求的uri
+                            4.WebSocketServerProtocolHandler 核心功能：将http协议升级为ws协议，保持长链接
+                             */
+                            pipeline.addLast(new WebSocketServerProtocolHandler("/hello"));
+
+                            //自定义的handler，处理业务逻辑
+                            pipeline.addLast(new MyTextWebSocketFrameHandler());
                         }
                     });     //给我们的WorkerGroup的EventLoop对应的管道设置处理器
             System.out.println("服务器is ready");
