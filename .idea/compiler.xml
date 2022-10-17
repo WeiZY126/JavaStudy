@@ -7,13 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Netty" />
+        <module name="JUC" />
         <module name="RPC" />
         <module name="Base" />
         <module name="algorithm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="algorithm" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
