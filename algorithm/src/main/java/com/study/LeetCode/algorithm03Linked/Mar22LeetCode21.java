@@ -55,11 +55,11 @@ public class Mar22LeetCode21 {
         if (l1.val <= l2.val) {
             temp.next = l1;
             temp = temp.next;
-            return LeetCode21DoubleIndexRecursion(temp.next, l2);
+            return LeetCode21Recursion2(temp.next, l2);
         } else {
             temp.next = l2;
             temp = temp.next;
-            return LeetCode21DoubleIndexRecursion(l1, temp.next);
+            return LeetCode21Recursion2(l1, temp.next);
         }
     }
 }
