@@ -15,7 +15,22 @@ public class Mar26LeetCode145 {
         if (root == null)
             return res;
         Stack<TreeNode> stack = new Stack<>();
-
+        TreeNode preNode = null;
+        while (root != null || !stack.empty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (root.right == null || root.right == preNode) {
+                res.add(root.val);
+                preNode = root;
+                root = null;
+            } else {
+                stack.push(root);
+                root = root.right;
+            }
+        }
         return res;
     }
 
