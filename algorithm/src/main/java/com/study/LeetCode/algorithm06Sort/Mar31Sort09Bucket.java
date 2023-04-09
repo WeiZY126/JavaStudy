@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * 桶排序*
  */
-public class Mar32Sort09Bucket {
+public class Mar31Sort09Bucket {
     static int pos = 0;
 
     public static void bucketSort(int[] array, int bucketCap) {
