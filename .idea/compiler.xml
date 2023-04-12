@@ -6,9 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="RPC" />
         <module name="Netty" />
         <module name="JUC" />
-        <module name="RPC" />
+        <module name="DesignPattern" />
+        <module name="Jackson" />
         <module name="Base" />
         <module name="algorithm" />
       </profile>
