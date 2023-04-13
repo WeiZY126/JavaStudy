@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Apr12GameBackpack {
     public static void main(String[] args) {
-        Prop[] props = {new Prop("xxj", 1500, 1), new Prop("xxj2", 2000, 3), new Prop("xxj3", 4000, 4)};
+        Prop[] props = {new Prop("xxj", 2000, 3), new Prop("xxj2", 1500, 1), new Prop("xxj3", 3500, 4)};
         outBag(props, 4);
 
     }
