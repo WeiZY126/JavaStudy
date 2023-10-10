@@ -2,6 +2,9 @@ package com.study.LeetCode.algorithm04StackAndQueue;
 
 import java.util.Stack;
 
+/**
+ * 柱状图的最大面积
+ */
 public class Test05LeetCode84 {
     public static void main(String[] args) {
         new Test05LeetCode84().largestRectangleArea(new int[]{2, 1, 5, 6, 2, 3});
