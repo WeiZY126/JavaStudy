@@ -1,43 +1,48 @@
-package com.study.LeetCode.algorithm05Tree;
+package com.study.LeetCode.algorithm07Tree;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 /**
- * 二叉树的中序遍历*
+ * 二叉树的后序遍历*
  */
-public class Mar26LeetCode94 {
+public class Mar26LeetCode145 {
     public List<Integer> res = new ArrayList<>();
 
     /*进阶-迭代*/
-    public List<Integer> LeetCode94Circulate(TreeNode root) {
+    public List<Integer> LeetCode145Circulate(TreeNode root) {
         if (root == null)
             return res;
         Stack<TreeNode> stack = new Stack<>();
+        TreeNode preNode = null;
         while (root != null || !stack.empty()) {
-            //遍历到最左边
             while (root != null) {
                 stack.push(root);
                 root = root.left;
             }
-            //取出栈顶元素
             root = stack.pop();
-            res.add(root.val);
-            root = root.right;
+            if (root.right == null || root.right == preNode) {
+                res.add(root.val);
+                preNode = root;
+                root = null;
+            } else {
+                stack.push(root);
+                root = root.right;
+            }
         }
         return res;
     }
 
     /*递归*/
-    public List<Integer> LeetCode94Recursion(TreeNode root) {
+    public List<Integer> LeetCode145Recursion(TreeNode root) {
         if (root == null)
             return res;
         if (root.left != null)
-            LeetCode94Recursion(root.left);
-        res.add(root.val);
+            LeetCode145Recursion(root.left);
         if (root.right != null)
-            LeetCode94Recursion(root.right);
+            LeetCode145Recursion(root.right);
+        res.add(root.val);
         return res;
     }
 }

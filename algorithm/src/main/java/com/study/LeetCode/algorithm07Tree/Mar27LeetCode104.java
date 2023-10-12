@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm05Tree;
+package com.study.LeetCode.algorithm07Tree;
 
 import java.util.LinkedList;
 import java.util.Queue;

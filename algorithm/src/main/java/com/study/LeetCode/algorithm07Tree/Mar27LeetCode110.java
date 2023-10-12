@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm05Tree;
+package com.study.LeetCode.algorithm07Tree;
 
 /**
  * 平衡二叉树*

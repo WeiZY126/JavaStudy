@@ -1,10 +1,7 @@
-package com.study.LeetCode.algorithm05Tree;
-
-import com.sun.jmx.remote.internal.ArrayQueue;
+package com.study.LeetCode.algorithm07Tree;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.LinkedTransferQueue;
 
 /**
  * 对称二叉树*
