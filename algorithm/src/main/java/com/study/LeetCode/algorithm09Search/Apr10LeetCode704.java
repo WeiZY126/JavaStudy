@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm07Search;
+package com.study.LeetCode.algorithm09Search;
 
 /**
  * 二分查找*

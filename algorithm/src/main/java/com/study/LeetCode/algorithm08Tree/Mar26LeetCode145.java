@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm07Tree;
+package com.study.LeetCode.algorithm08Tree;
 
 import java.util.ArrayList;
 import java.util.List;

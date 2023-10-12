@@ -1,9 +1,8 @@
-package com.study.LeetCode.algorithm07Tree;
+package com.study.LeetCode.algorithm08Tree;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * 最大二叉树
