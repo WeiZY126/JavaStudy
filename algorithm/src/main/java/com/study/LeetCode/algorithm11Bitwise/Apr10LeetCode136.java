@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm08Bitwise;
+package com.study.LeetCode.algorithm11Bitwise;
 
 /**
  * 只出现一次的数字*

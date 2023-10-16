@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm08Bitwise;
+package com.study.LeetCode.algorithm11Bitwise;
 
 /**
  * 汉明距离
