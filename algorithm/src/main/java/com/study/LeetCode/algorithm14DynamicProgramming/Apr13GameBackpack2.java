@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm10DynamicProgramming;
+package com.study.LeetCode.algorithm14DynamicProgramming;
 
 /**
  * 优化游戏背包 反推+虚拟行列*

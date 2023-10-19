@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm10DynamicProgramming;
+package com.study.LeetCode.algorithm14DynamicProgramming;
 
 /**
  * 最大子序和*

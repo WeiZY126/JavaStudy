@@ -1,4 +1,4 @@
-package com.study.LeetCode.algorithm10DynamicProgramming;
+package com.study.LeetCode.algorithm14DynamicProgramming;
 
 /**
  * 买卖股票的最佳时机*

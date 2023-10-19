@@ -1,8 +1,6 @@
-package com.study.LeetCode.algorithm10DynamicProgramming;
+package com.study.LeetCode.algorithm14DynamicProgramming;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
